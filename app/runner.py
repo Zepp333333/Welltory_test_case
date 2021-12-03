@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter
-from ping_pong import make_routes, a_processor, b_processor
+from app.ping_pong import make_routes, a_processor, b_processor
 
 
 def run():

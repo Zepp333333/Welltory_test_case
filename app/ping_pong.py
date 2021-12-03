@@ -42,6 +42,8 @@ def a_processor(payload: Payload):
 
 def b_processor(payload: Payload):
     d = payload.digits
+    if not d:
+        return payload
     payload.avg = sum(d) / len(d)
     payload.max = max(d)
     payload.min = min(d)
@@ -63,9 +65,10 @@ def make_routes(endpoint_route: str, app: APIRouter, process: callable) -> None:
         fastapi service: validates json payload, processes payload and POSTs it to partner fastapi service if valid,
                 otherwise raises 400
         :param payload: jsonified Payload instance
-        :return: httpx.Response
+        :return: string containing httpx.Response
         """
         validate(payload)
         process(payload)
         response = await make_post(ENDPOINT_PARTNERS[endpoint_route], payload)
+        print(payload)
         return f"{response}"
